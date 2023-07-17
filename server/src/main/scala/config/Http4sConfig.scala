@@ -44,7 +44,7 @@ object Http4sConfig {
         .bindHttp(port.value, host.toString)
         .withMaxConnections(maxConnections)
         .withConnectorPoolSize(connectorPoolSize)
-        .withHttpWebSocketApp(service)
+        .withHttpWebSocketApp(f)
         .resource
     }
   }
@@ -59,7 +59,7 @@ object Http4sConfig {
         .withPort(port)
         .withHost(host)
         .withMaxConnections(maxConnections)
-        .withHttpWebSocketApp(service)
+        .withHttpWebSocketApp(f)
         .withIdleTimeout(idleTimeout)
         .withShutdownTimeout(shutdownTimeout)
         .withRequestHeaderReceiveTimeout(requestHeaderReceiveTimeout)

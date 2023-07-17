@@ -84,6 +84,8 @@ lazy val client = (project in file("client"))
     libraryDependencies ++= Seq(
       "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion % Test,
       "io.gatling" % "gatling-test-framework" % gatlingVersion % Test,
+
+      "ch.qos.logback" % "logback-classic" % logbackVersion,
     )
   )
 

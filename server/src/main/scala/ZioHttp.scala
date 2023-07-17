@@ -6,7 +6,7 @@ import zio.http.netty.{ChannelType, NettyConfig}
 
 import java.util.concurrent.TimeUnit
 
-object ZioHttpWebSocketServer extends ZIOAppDefault {
+object ZioHttp extends ZIOAppDefault {
   private val socketApp: SocketApp[Any] =
     Handler.webSocket { channel =>
       ClockLive.currentTime(TimeUnit.MILLISECONDS).flatMap { ts =>
