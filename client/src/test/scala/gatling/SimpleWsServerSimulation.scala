@@ -55,7 +55,7 @@ object SimpleWsServerSimulation {
   })
 
   object config {
-    val numberOfUsers = 25000
+    val numberOfUsers = 20000
 
     val wsServerUri = "ws://127.0.0.1:8888"
 
