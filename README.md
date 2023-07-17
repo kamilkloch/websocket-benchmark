@@ -1,4 +1,4 @@
-# Scala web servers benchmark
+# Scala websocket benchmark
 
 Current benchmarks are only for web sockets.
 
