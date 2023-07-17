@@ -4,7 +4,7 @@ import zio.http.ChannelEvent.Read
 import zio.http.*
 import zio.http.netty.{ChannelType, NettyConfig}
 
-import java.util.concurrent.{ForkJoinPool, TimeUnit}
+import java.util.concurrent.TimeUnit
 
 object ZioHttpWebSocketServer extends ZIOAppDefault {
   private val socketApp: SocketApp[Any] =

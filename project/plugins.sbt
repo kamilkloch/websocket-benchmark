@@ -1,4 +1,4 @@
-addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.14")
+addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.16")
 
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.4")
 
