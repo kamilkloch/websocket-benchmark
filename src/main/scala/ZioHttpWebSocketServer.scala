@@ -30,11 +30,6 @@ object ZioHttpWebSocketServer extends ZIOAppDefault {
 
   private val nettyConfigLayer = ZLayer.succeed(nettyConfig)
 
-  override val bootstrap: ZLayer[ZIOAppArgs, Any, Any] =
-    Runtime.setExecutor(Executor.fromJavaExecutor(new ForkJoinPool(
-      Math.max(2, java.lang.Runtime.getRuntime.availableProcessors() / 2),
-      ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, true)))
-
   override val run: ZIO[Any, Throwable, Nothing] = (Server.install(app).flatMap { port =>
     Console.printLine(s"Started server on port: $port")
   } *> ZIO.never)

@@ -1,6 +1,7 @@
 package gatling
 
 import io.gatling.core.Predef.*
+import io.gatling.core.controller.inject.open.OpenInjectionStep
 import io.gatling.http.Predef.*
 import io.gatling.http.action.ws.WsSendTextFrameBuilder
 import org.HdrHistogram.ConcurrentHistogram
@@ -16,22 +17,21 @@ class SimpleWsServerSimulation extends Simulation {
   private val numOfMessagesPerUser = 120
 
   def subscribe(channel: String): WsSendTextFrameBuilder = {
-    var req = ws(s"Subscribe $channel").sendText(channel)
+    val req = ws(s"Subscribe $channel").sendText(channel)
     val check = ws.checkTextMessage("checkFrame").check(
       bodyString.transform { ts =>
         hist.recordValue(Math.max(System.currentTimeMillis() - ts.toLong, 0))
       }
     )
-    for (_ <- 0 until numOfMessagesPerUser)
-      req = req.await(1.second)(check)
-    req
+
+    Range.inclusive(1, numOfMessagesPerUser).foldLeft(req)((acc, _) => acc.await(1.second)(check))
   }
 
   private val subscribeMD = subscribe("0")
 
   private val scn = scenario("WS subscribe")
     .exec(ws("Connect WS").connect("/ts"))
-    .repeat(1)(exec(subscribeMD))
+    .exec(subscribeMD)
     .exec(ws("Close WS").close)
 
   setUp(
@@ -49,10 +49,10 @@ object SimpleWsServerSimulation {
   })
 
   object config {
-    val numberOfUsers = 10000
+    val numberOfUsers = 25000
 
     val wsServerUri = "ws://127.0.0.1:8888"
 
-    val injectionPolicy = rampUsers(numberOfUsers).during(30.seconds)
+    val injectionPolicy: OpenInjectionStep = rampUsers(numberOfUsers).during(30.seconds)
   }
 }
