@@ -16,9 +16,9 @@ class SimpleWsServerSimulation extends Simulation {
 
   private val numOfMessagesPerUser = 120
 
-  def subscribe(channel: String): WsSendTextFrameBuilder = {
-    val req = ws(s"Subscribe $channel").sendText(channel)
-    val check = ws.checkTextMessage("checkFrame").check(
+  def subscribe(name: String): WsSendTextFrameBuilder = {
+    val req = ws(name).sendText("0")
+    val check = ws.checkTextMessage(name).check(
       bodyString.transform { ts =>
         hist.recordValue(Math.max(System.currentTimeMillis() - ts.toLong, 0))
       }
@@ -27,15 +27,21 @@ class SimpleWsServerSimulation extends Simulation {
     Range.inclusive(1, numOfMessagesPerUser).foldLeft(req)((acc, _) => acc.await(1.second)(check))
   }
 
-  private val subscribeMD = subscribe("0")
-
-  private val scn = scenario("WS subscribe")
-    .exec(ws("Connect WS").connect("/ts"))
-    .exec(subscribeMD)
-    .exec(ws("Close WS").close)
-
   setUp(
-    scn.inject(config.injectionPolicy)
+    scenario("WS subscribe")
+      .exec(ws("Warmup Connect WS").connect("/ts"))
+      .exec(subscribe("Warmup Subscribe"))
+      .exec(ws("Warmup Close WS").close)
+      .exec(pause(30.seconds))
+      .exec({
+        session =>
+          hist.reset()
+          session
+      })
+      .exec(ws("Connect WS").connect("/ts"))
+      .exec(subscribe("Subscribe"))
+      .exec(ws("Close WS").close)
+      .inject(config.injectionPolicy)
   ).protocols(wsPubHttpProtocol)
 }
 
