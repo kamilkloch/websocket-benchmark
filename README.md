@@ -10,6 +10,7 @@ Tested server setups:
  - http4s + blaze, via [tapir] (CE 3.5.1, fs2 3.7.0) 
  - http4s + ember, via [tapir] (CE 3.5.1, fs2 3.7.0)
  - zio-http
+ - [babl]
 
 ## How to run benchmarks:
 
@@ -28,3 +29,4 @@ Note: you need Java 17 to build and run the benchmarks.
 
 [tapir]: https://github.com/softwaremill/tapir
 [gatling]: https://github.com/gatling/gatling
+[babl]: https://github.com/babl-ws/babl

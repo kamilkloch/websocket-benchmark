@@ -14,14 +14,16 @@ import org.http4s.websocket.WebSocketFrame
 
 import scala.concurrent.duration.*
 
-/** Config shared among blaze/ember http4s/tapir servers */
-object Http4sConfig {
+/** Config shared among blaze/ember/zio-http http4s/tapir servers */
+object WebServerConfig {
 
   private val responseStream = Stream.repeatEval(IO.realTime.map(ts => WebSocketFrame.Text(s"${ts.toMillis}")).delayBy(500.millis))
 
-  private val port: Port = port"8888"
-  private val host: Hostname = host"0.0.0.0"
+  val port: Port = port"8888"
+  val host: Hostname = host"0.0.0.0"
+  val connectorPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 4)
   private val maxConnections: Int = 65536
+
 
   def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = {
     val dsl = new Http4sDsl[IO] {}
@@ -37,8 +39,6 @@ object Http4sConfig {
   }
 
   object blaze {
-    private def connectorPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 4)
-
     def serverResource(f: WebSocketBuilder2[IO] => HttpApp[IO]): Resource[IO, Server] = {
       BlazeServerBuilder[IO]
         .bindHttp(port.value, host.toString)
@@ -66,5 +66,7 @@ object Http4sConfig {
         .build
     }
   }
+
+
 
 }

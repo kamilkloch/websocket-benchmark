@@ -1,7 +1,8 @@
-import zio.Clock.ClockLive
+import config.WebServerConfig
 import zio.*
-import zio.http.ChannelEvent.Read
+import zio.Clock.ClockLive
 import zio.http.*
+import zio.http.ChannelEvent.Read
 import zio.http.netty.{ChannelType, NettyConfig}
 
 import java.util.concurrent.TimeUnit
@@ -19,14 +20,14 @@ object ZioHttp extends ZIOAppDefault {
       case Method.GET -> Root / "ts" => socketApp.toResponse
     }
 
-  private val config = Server.Config.default.binding("0.0.0.0", 8888)
+  private val config = Server.Config.default.binding(WebServerConfig.host.toString, WebServerConfig.port.value)
 
   private val configLayer = ZLayer.succeed(config)
 
   private val nettyConfig = NettyConfig.default
     .leakDetection(NettyConfig.LeakDetectionLevel.DISABLED)
     .channelType(ChannelType.NIO)
-    .maxThreads(Math.max(2, java.lang.Runtime.getRuntime.availableProcessors() / 4))
+    .maxThreads(WebServerConfig.connectorPoolSize)
 
   private val nettyConfigLayer = ZLayer.succeed(nettyConfig)
 
