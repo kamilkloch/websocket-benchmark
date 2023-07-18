@@ -45,8 +45,8 @@ lazy val commonSettings = Def.settings(
     "-Djava.net.preferIPv4Stack=true",
     "-XX:+UnlockExperimentalVMOptions",
     "-XX:+TrustFinalNonStaticFields",
-    // FIXME: It does't work for client/Gatling/test "-Xms2g",
-    "-Xmx2g",
+    "-Xms4g",
+    "-Xmx4g",
     "-XX:+AlwaysPreTouch",
     "-XX:+UseZGC",
   ),
@@ -87,8 +87,8 @@ lazy val server = (project in file("server"))
       "-J-Djava.net.preferIPv4Stack=true",
       "-J-XX:+UnlockExperimentalVMOptions",
       "-J-XX:+TrustFinalNonStaticFields",
-      "-J-Xms2g",
-      "-J-Xmx2g",
+      "-J-Xms4g",
+      "-J-Xmx4g",
       "-J-XX:+AlwaysPreTouch",
       "-J-XX:+UseZGC",
     )
@@ -104,7 +104,19 @@ lazy val client = (project in file("client"))
       "io.gatling" % "gatling-test-framework" % gatlingVersion % Test,
 
       "ch.qos.logback" % "logback-classic" % logbackVersion,
-    )
+    ),
+    Gatling / javaOptions := overrideDefaultJavaOptions(
+      "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+      "--add-opens", "java.base/java.util.zip=ALL-UNNAMED",
+      "-Djava.lang.Integer.IntegerCache.high=65536",
+      "-Djava.net.preferIPv4Stack=true",
+      "-XX:+UnlockExperimentalVMOptions",
+      "-XX:+TrustFinalNonStaticFields",
+      "-Xms4g",
+      "-Xmx4g",
+      "-XX:+AlwaysPreTouch",
+      "-XX:+UseZGC",
+    ),
   )
 
 lazy val web_servers_benchmark = (project in file("."))
