@@ -32,7 +32,7 @@ class SimpleWsServerSimulation extends Simulation {
       .exec(ws("Warmup Connect WS").connect("/ts"))
       .exec(subscribe("Warmup Subscribe"))
       .exec(ws("Warmup Close WS").close)
-      .exec(pause(30.seconds))
+      .exec(pause(40.seconds))
       .exec({
         session =>
           hist.reset()
@@ -47,7 +47,7 @@ class SimpleWsServerSimulation extends Simulation {
 
 
 object SimpleWsServerSimulation {
-  private val hist = new ConcurrentHistogram(1L, 1_000_000L, 3)
+  private val hist = new ConcurrentHistogram(1L, 10000L, 3)
 
   Runtime.getRuntime.addShutdownHook(new Thread {
     override def run(): Unit =

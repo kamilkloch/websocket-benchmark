@@ -38,9 +38,16 @@ lazy val commonSettings = Def.settings(
     "-Wconf:cat=other-pure-statement:silent", // silence "unused value of type [???] (add `: Unit` to discard silently)"
     "-Wnonunit-statement",
   ),
-  javaOptions ++= Seq(
+  javaOptions := Seq(
     "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
     "--add-opens", "java.base/java.util.zip=ALL-UNNAMED",
+    "-Djava.lang.Integer.IntegerCache.high=65536",
+    "-Djava.net.preferIPv4Stack=true",
+    "-XX:+UnlockExperimentalVMOptions",
+    "-XX:+TrustFinalNonStaticFields",
+    "-Xms4g",
+    "-Xmx4g",
+    "-XX:+AlwaysPreTouch",
     "-XX:+UseZGC",
   ),
 )
@@ -71,11 +78,18 @@ lazy val server = (project in file("server"))
     )
   )
   .settings(
-    Universal / javaOptions ++= Seq(
+    Universal / javaOptions := Seq(
       "-J--add-opens",
       "-Jjava.base/sun.nio.ch=ALL-UNNAMED",
       "-J--add-opens",
       "-Jjava.base/java.util.zip=ALL-UNNAMED",
+      "-J-Djava.lang.Integer.IntegerCache.high=65536",
+      "-J-Djava.net.preferIPv4Stack=true",
+      "-J-XX:+UnlockExperimentalVMOptions",
+      "-J-XX:+TrustFinalNonStaticFields",
+      "-J-Xms4g",
+      "-J-Xmx4g",
+      "-J-XX:+AlwaysPreTouch",
       "-J-XX:+UseZGC",
     )
   )
@@ -90,7 +104,19 @@ lazy val client = (project in file("client"))
       "io.gatling" % "gatling-test-framework" % gatlingVersion % Test,
 
       "ch.qos.logback" % "logback-classic" % logbackVersion,
-    )
+    ),
+    Gatling / javaOptions := overrideDefaultJavaOptions(
+      "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+      "--add-opens", "java.base/java.util.zip=ALL-UNNAMED",
+      "-Djava.lang.Integer.IntegerCache.high=65536",
+      "-Djava.net.preferIPv4Stack=true",
+      "-XX:+UnlockExperimentalVMOptions",
+      "-XX:+TrustFinalNonStaticFields",
+      "-Xms4g",
+      "-Xmx4g",
+      "-XX:+AlwaysPreTouch",
+      "-XX:+UseZGC",
+    ),
   )
 
 lazy val web_servers_benchmark = (project in file("."))
