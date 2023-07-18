@@ -23,7 +23,10 @@ Note: you need Java 17 to build and run the benchmarks.
    ```bash
     sbt client/Gatling/test
    ```
- 
+# Acknowledgements
+
+The majority of the work behind the tests is carried out by [Andriy Plokhotnyuk](https://github.com/plokhotnyuk).
+Thank, you Andriy!
 
 [tapir]: https://github.com/softwaremill/tapir
 [gatling]: https://github.com/gatling/gatling
