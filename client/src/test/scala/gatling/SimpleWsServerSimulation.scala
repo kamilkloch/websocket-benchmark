@@ -32,7 +32,7 @@ class SimpleWsServerSimulation extends Simulation {
       .exec(ws("Warmup Connect WS").connect("/ts"))
       .exec(subscribe("Warmup Subscribe"))
       .exec(ws("Warmup Close WS").close)
-      .exec(pause(33.seconds))
+      .exec(pause(40.seconds))
       .exec({
         session =>
           hist.reset()
