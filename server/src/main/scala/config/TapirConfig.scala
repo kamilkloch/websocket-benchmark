@@ -20,7 +20,7 @@ object TapirConfig {
 
   private val responseStream = Stream.repeatEval(IO.realTime.map(_.toMillis).delayBy(500.millis))
   private val wsRoutes = Http4sServerInterpreter[IO]()
-    .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((_: Stream[IO, Long]) => responseStream)))
+    .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((in: Stream[IO, Long]) => responseStream.concurrently(in.as(())))))
 
   def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = Router("/" -> wsRoutes(wsb)).orNotFound
 }
