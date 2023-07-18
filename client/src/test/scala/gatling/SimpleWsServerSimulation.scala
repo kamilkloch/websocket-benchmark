@@ -27,21 +27,26 @@ class SimpleWsServerSimulation extends Simulation {
     Range.inclusive(1, numOfMessagesPerUser).foldLeft(req)((acc, _) => acc.await(1.second)(check))
   }
 
+  private val warmup = scenario("WS warmup")
+    .exec(ws("Warmup Connect WS").connect("/ts"))
+    .exec(subscribe("Warmup Subscribe"))
+    .exec(ws("Warmup Close WS").close)
+    .exec(pause(40.seconds))
+    .exec({
+      session =>
+        hist.reset()
+        session
+    })
+    .inject(config.injectionPolicy)
+
+  private val measurement = scenario("WS measurement")
+    .exec(ws("Connect WS").connect("/ts"))
+    .exec(subscribe("Subscribe"))
+    .exec(ws("Close WS").close)
+    .inject(config.injectionPolicy)
+
   setUp(
-    scenario("WS subscribe")
-      .exec(ws("Warmup Connect WS").connect("/ts"))
-      .exec(subscribe("Warmup Subscribe"))
-      .exec(ws("Warmup Close WS").close)
-      .exec(pause(40.seconds))
-      .exec({
-        session =>
-          hist.reset()
-          session
-      })
-      .exec(ws("Connect WS").connect("/ts"))
-      .exec(subscribe("Subscribe"))
-      .exec(ws("Close WS").close)
-      .inject(config.injectionPolicy)
+    warmup.andThen(measurement)
   ).protocols(wsPubHttpProtocol)
 }
 
