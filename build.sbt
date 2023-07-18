@@ -41,7 +41,10 @@ lazy val commonSettings = Def.settings(
   javaOptions ++= Seq(
     "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
     "--add-opens", "java.base/java.util.zip=ALL-UNNAMED",
-    "-XX:+UseZGC",
+    "-Xms4g",
+    "-Xmx4g",
+    "-XX:+AlwaysPreTouch",
+    "-XX:+UseZGC"
   ),
 )
 
@@ -76,6 +79,9 @@ lazy val server = (project in file("server"))
       "-Jjava.base/sun.nio.ch=ALL-UNNAMED",
       "-J--add-opens",
       "-Jjava.base/java.util.zip=ALL-UNNAMED",
+      "-J-Xms4g",
+      "-J-Xmx4g",
+      "-J-XX:+AlwaysPreTouch",
       "-J-XX:+UseZGC",
     )
   )
@@ -85,6 +91,13 @@ lazy val client = (project in file("client"))
   .enablePlugins(GatlingPlugin)
   .settings(commonSettings)
   .settings(
+    Test / fork := true,
+    Test / javaOptions ++= Seq(
+      "-Xms4g",
+      "-Xmx4g",
+      "-XX:+AlwaysPreTouch",
+      "-XX:+UseZGC",
+    ),
     libraryDependencies ++= Seq(
       "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion % Test,
       "io.gatling" % "gatling-test-framework" % gatlingVersion % Test,
