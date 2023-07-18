@@ -6,9 +6,10 @@ import org.http4s.*
 import org.http4s.implicits.*
 import org.http4s.server.Router
 import org.http4s.server.websocket.WebSocketBuilder2
+import sttp.capabilities
 import sttp.capabilities.fs2.Fs2Streams
 import sttp.tapir.server.http4s.Http4sServerInterpreter
-import sttp.tapir.{CodecFormat, endpoint, webSocketBody}
+import sttp.tapir.*
 
 import scala.concurrent.duration.*
 
@@ -22,5 +23,5 @@ object TapirConfig {
   private val wsRoutes = Http4sServerInterpreter[IO]()
     .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((in: Stream[IO, Long]) => responseStream.concurrently(in.as(())))))
 
-  def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = Router("/" -> wsRoutes(wsb)).orNotFound
+  def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = Router[IO]("/" -> wsRoutes(wsb)).orNotFound
 }

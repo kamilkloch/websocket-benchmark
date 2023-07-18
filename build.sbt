@@ -25,18 +25,14 @@ lazy val commonSettings = Def.settings(
   name := "web-servers-benchmark",
   version := "0.1.0-SNAPSHOT",
   fork := true,
-  scalaVersion := "2.13.11",
+  scalaVersion := "3.3.0",
   scalacOptions ++= Seq("-release", "17"),
   javacOptions ++= Seq("-source", "17", "-target", "17"),
   Compile / scalacOptions ~= ((options: Seq[String]) => options.filterNot(disabledScalacOptionsCompile)),
   Compile / scalacOptions ++= Seq(
     "-Wconf:any:warning-verbose", // print warnings with their category, site, and (for deprecations) origin and since-version
-    "-Xsource:3", // disabled until IJ Scala plugin has stable support
-    "-Vimplicits", // makes the compiler print implicit resolution chains when no implicit value can be found
-    "-Vtype-diffs", // turns type error messages into colored diffs between the two types
     "-Wconf:cat=other-match-analysis:error", // report incomplete case match as error
     "-Wconf:cat=other-pure-statement:silent", // silence "unused value of type [???] (add `: Unit` to discard silently)"
-    "-Wnonunit-statement",
   ),
   javaOptions := Seq(
     "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",

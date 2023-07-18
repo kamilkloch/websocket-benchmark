@@ -1,7 +1,7 @@
 package config
 
 import cats.effect.*
-import com.comcast.ip4s.{Hostname, IpLiteralSyntax, Port}
+import com.comcast.ip4s.{Hostname, Port, host, port}
 import fs2.*
 import org.http4s.*
 import org.http4s.blaze.server.BlazeServerBuilder
