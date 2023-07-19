@@ -9,8 +9,6 @@ Client and server run on two separate machines. Both share the same setup:
  - Ubuntu 23.04 (Linux 6.2), 
  - Oracle GraalVM 23.0 for Java 20.
 
-TODO: describe clock synchronization
-
 ### Server
 
 Server code resides in the `/server` module. Server exposes a single `/ts` websocket endpoint, which emits a timestamp every 500ms.
@@ -32,7 +30,35 @@ Client code resides in the `/client` module. [Gatling] client ramps up to 25k us
 and each user consumes 120 messages from the websocket server (with an update every 500ms this amounts to 60s). 
 For each message, an absolute difference between the client timestamp and the timestamp received from the server
 is stored into an [HdrHistogram]. With clocks synchronized between the client and server, this value corresponds
-to the latency induced by the server.  
+to the latency induced by the server.
+
+### Clock synchronization
+
+For precise measurement of latency up to milliseconds need to install, configure, and run `chrony` service.
+
+The following command could be used for installation on Ubuntu:
+```sh
+sudo apt-get -y install chrony
+```
+
+Here is a list of NTP servers that is used in our `/etc/chrony/chrony.conf`:
+```
+        server time5.facebook.com iburst
+       	server tempus1.gum.gov.pl
+	       server tempus2.gum.gov.pl
+        server ntp1.tp.pl
+        server ntp2.tp.pl 
+        server ntp.fizyka.umk.pl
+```
+
+For non-Poland regions [other servers could be preffered](https://gist.github.com/mutin-sa/eea1c396b1e610a2da1e5550d94b0453).
+
+Finally need to restart the service after (re)configuration by:
+```
+sudo systemctl restart chrony
+```
+
+[Here](https://engineering.fb.com/2020/03/18/production-engineering/ntp-service/) is a great article about time synchronization in Facebook.
 
 ## Benchmarks
 
