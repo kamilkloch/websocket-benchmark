@@ -1,7 +1,23 @@
 # Scala websocket benchmark
 
-Tested server setups:
- - [http4s] + blaze ([CE] 3.5.1, [fs2] 3.7.0)
+## Test setup
+
+Client and server run on two separate machines. Both share the same setup: 
+ - Intel® Core™ i9-13900K CPU @ 3.0GHz (max 5.8GHz, performance-cores only), 
+ - RAM 64GB DDR5-4800,
+ - 10Gbit network,
+ - Ubuntu 23.04 (Linux 6.2), 
+ - Oracle GraalVM 23.0 for Java 20.
+
+TODO: describe clock synchronization
+
+### Server
+
+Server code resides in the `/server` module. Server exposes a single `/ts` websocket endpoint, which emits a timestamp every 500ms.
+This targets a scenario in which a websocket channel is used to serve live market updates to the user.  
+
+Tested servers:
+ - [http4s] + blaze ([CE], [fs2] 3.7.0)
  - [http4s] + ember ([CE] 3.5.1, [fs2] 3.7.0)
  - [http4s] + blaze ([CE] 3.6-e9aeb8c, [fs2] 3.8-1af22dd)
  - [http4s] + ember ([CE] 3.6-e9aeb8c, [fs2] 3.8-1af22dd)
@@ -9,6 +25,43 @@ Tested server setups:
  - [http4s] + ember, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0)
  - [zio-http] ([zio-http] 3.0.0-RC2, [zio] 2.0.15)
  - [babl]
+
+### Client 
+
+Client code resides in the `/client` module. [Gatling] client ramps up to 25k users within 30s, 
+and each user consumes 120 messages from the websocket server (with an update every 500ms this amounts to 60s). 
+For each message, an absolute difference between the client timestamp and the timestamp received from the server
+is stored into an [HdrHistogram]. With clocks synchronized between the client and server, this value corresponds
+to the latency induced by the server.  
+
+## Benchmarks
+
+Benchmark results reside in `/results`. 
+```
+ results
+ ├── babl
+ ├── http4s-blaze      (CE 3.5.1, fs2 3.7.0)
+ ├── http4s-blaze-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
+ ├── http4s-ember      (CE 3.5.1, fs2 3.7.0)
+ ├── http4s-ember-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
+ ├── tapir-blaze       (CE 3.5.1, fs2 3.7.0)
+ ├── tapir-ember       (CE 3.5.1, fs2 3.7.0)
+ └── zio-http          (zio-http 3.0.0-RC2, zio 2.0.15)
+```
+
+Each folder contains:
+  - [HdrHistogram] latency,
+  - [Gatling] html report (useful to see variance in the expected 500ms between the updates across time),
+  - [async-profiler] flame graphs in 2 flavours: per-thread and aggregated.
+
+Below a quick summary of the results: 
+  - http4s-blaze, htt4s-blaze-new and zio-http are head-to-head with <5ms tail latency. 
+  - http4s-ember deilvers 100ms tail latency (a lot of allocations and GC, see async-profiler results),
+    new [CE] 3.6-SNAPSHOT with polling helps a little, but not much.
+  - tapir induces so much overhead that we weren't able to conduct the tests for 25k users, and even for 15k users 
+    tapir-blaze tail latency is 10ms (compared do http4s-blaze 4ms @25k) 
+
+![web-server-benchmark-25k](img/web-server-benchmark-25k.png)
 
 ## How to run benchmarks:
 
@@ -36,3 +89,5 @@ Thank, you Andriy!
 [zio]: https://github.com/zio/zio
 [CE]: https://github.com/typelevel/cats-effect
 [fs2]: https://github.com/typelevel/fs2
+[HdrHistogram]: https://github.com/HdrHistogram/HdrHistogram
+[async-profiler]: https://github.com/async-profiler/async-profiler
