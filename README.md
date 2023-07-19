@@ -61,7 +61,7 @@ Below a quick summary of the results:
   - tapir induces so much overhead that we weren't able to conduct the tests for 25k users, and even for 15k users 
     tapir-blaze tail latency is 10ms (compared do http4s-blaze 4ms @25k) 
 
-![web-server-benchmark-25k](img/web-server-benchmark-25k.png)
+![web-server-benchmark-25k](results/web-server-benchmark-25k.png)
 
 ## How to run benchmarks:
 
