@@ -2,6 +2,7 @@ package config
 
 import cats.effect.*
 import fs2.*
+import fs2.concurrent.{Channel, Topic}
 import org.http4s.*
 import org.http4s.implicits.*
 import org.http4s.server.Router
@@ -23,4 +24,6 @@ object TapirConfig {
     .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((in: Stream[IO, Long]) => responseStream.concurrently(in.as(())))))
 
   def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = Router("/" -> wsRoutes(wsb)).orNotFound
+
+
 }
