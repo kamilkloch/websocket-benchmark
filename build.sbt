@@ -1,6 +1,6 @@
-val http4sVersion = "0.23.22"
+val http4sVersion = "0.23.23"
 val blazeVersion = "0.23.15"
-val tapirVersion = "1.6.0"
+val tapirVersion = "1.6.3"
 
 val catsEffectVersion = "3.5.1"
 // val catsEffectVersion = "3.6-e9aeb8c"
@@ -11,7 +11,7 @@ val fs2Version = "3.7.0"
 val zioHttpVersion = "3.0.0-RC2"
 val zioVersion = "2.0.15"
 val gatlingVersion = "3.9.5"
-val logbackVersion = "1.4.7"
+val logbackVersion = "1.4.8"
 
 val bablVersion = "0.11.0"
 
