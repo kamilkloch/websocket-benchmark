@@ -45,10 +45,9 @@ Here is a list of NTP servers that is used in our `/etc/chrony/chrony.conf`:
 ```
         server time5.facebook.com iburst
        	server tempus1.gum.gov.pl
-	       server tempus2.gum.gov.pl
+	server tempus2.gum.gov.pl
         server ntp1.tp.pl
         server ntp2.tp.pl 
-        server ntp.fizyka.umk.pl
 ```
 
 For non-Poland regions [other servers could be preffered](https://gist.github.com/mutin-sa/eea1c396b1e610a2da1e5550d94b0453).
