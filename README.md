@@ -19,8 +19,8 @@ Tested servers:
  - [http4s] + ember ([CE] 3.5.1, [fs2] 3.7.0)
  - [http4s] + blaze ([CE] 3.6-e9aeb8c, [fs2] 3.8-1af22dd)
  - [http4s] + ember ([CE] 3.6-e9aeb8c, [fs2] 3.8-1af22dd)
- - [http4s] + blaze, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0) 
- - [http4s] + ember, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0)
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0, [tapir] 1.6.3) 
+ - [http4s] + ember, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0, [tapir] 1.6.3)
  - [zio-http] ([zio-http] 3.0.0-RC2, [zio] 2.0.15)
  - [babl]
 
@@ -70,8 +70,8 @@ Benchmark results reside in `/results`.
  ├── http4s-blaze-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
  ├── http4s-ember      (CE 3.5.1, fs2 3.7.0)
  ├── http4s-ember-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
- ├── tapir-blaze       (CE 3.5.1, fs2 3.7.0)
- ├── tapir-ember       (CE 3.5.1, fs2 3.7.0)
+ ├── tapir-blaze       (CE 3.5.1, fs2 3.7.0, tapir 1.6.3)
+ ├── tapir-ember       (CE 3.5.1, fs2 3.7.0, tapir 1.6.3)
  └── zio-http          (zio-http 3.0.0-RC2, zio 2.0.15)
 ```
 
@@ -81,11 +81,10 @@ Each folder contains:
   - [async-profiler] flame graphs in 2 flavours: per-thread and aggregated.
 
 Below a quick summary of the results: 
-  - http4s-blaze, htt4s-blaze-new and zio-http are head-to-head with <5ms tail latency. 
+  - http4s-blaze, htt4s-blaze-new and zio-http are head-to-head with <5ms tail latency, same 
+    for tapir-blaze (after updates to the websocket interpreter in tapir 1.6.3: https://github.com/softwaremill/tapir/pull/3068)
   - http4s-ember deilvers 100ms tail latency (a lot of allocations and GC, see async-profiler results),
     new [CE] 3.6-SNAPSHOT with polling helps a little, but not much.
-  - tapir induces so much overhead that we weren't able to conduct the tests for 25k users, and even for 15k users 
-    tapir-blaze tail latency is 10ms (compared do http4s-blaze 4ms @25k) 
 
 ![web-server-benchmark-25k](results/web-server-benchmark-25k.png)
 
