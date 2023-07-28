@@ -1,7 +1,7 @@
 {
   "simulation": "gatling.SimpleWsServerSimulation",
-  "simulationId": "simplewsserversimulation-20230718131353664",
-  "start": 1689686033765,
+  "simulationId": "simplewsserversimulation-20230728112541065",
+  "start": 1690543541165,
   "description": "",
   "scenarios": ["WS warmup", "WS measurement"],
   "assertions": [
