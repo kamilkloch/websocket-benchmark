@@ -11,8 +11,8 @@
         "ko": 0
     },
     "maxResponseTime": {
-        "total": 582,
-        "ok": 582,
+        "total": 549,
+        "ok": 549,
         "ko": 0
     },
     "meanResponseTime": {
@@ -41,8 +41,8 @@
         "ko": 0
     },
     "percentiles4": {
-        "total": 546,
-        "ok": 546,
+        "total": 501,
+        "ok": 501,
         "ko": 0
     },
     "group1": {

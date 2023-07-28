@@ -22,7 +22,6 @@ Tested servers:
  - [http4s] + blaze, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0, [tapir] 1.6.3) 
  - [http4s] + ember, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0, [tapir] 1.6.3)
  - [zio-http] ([zio-http] 3.0.0-RC2, [zio] 2.0.15)
- - [babl]
 
 ### Client 
 
@@ -52,7 +51,7 @@ Here is a list of NTP servers that is used in our `/etc/chrony/chrony.conf`:
 
 For non-Poland regions [other servers could be preffered](https://gist.github.com/mutin-sa/eea1c396b1e610a2da1e5550d94b0453).
 
-Finally need to restart the service after (re)configuration by:
+Finally, need to restart the service after (re)configuration by:
 ```
 sudo systemctl restart chrony
 ```
@@ -64,7 +63,6 @@ sudo systemctl restart chrony
 Benchmark results reside in `/results`. 
 ```
  results
- ├── babl
  ├── http4s-blaze      (CE 3.5.1, fs2 3.7.0)
  ├── http4s-blaze-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
  ├── http4s-ember      (CE 3.5.1, fs2 3.7.0)
@@ -85,7 +83,7 @@ Below a quick summary of the results:
   - http4s-ember deilvers 100ms tail latency (a lot of allocations and GC, see async-profiler results),
     new [CE] 3.6-SNAPSHOT with polling helps a little, but not much.
 
-![web-server-benchmark-25k](results/web-server-benchmark-25k.png)
+![websocket-benchmark-25k](results/websocket-benchmark-25k.png)
 
 ## How to run benchmarks
 
@@ -107,7 +105,6 @@ Thank, you Andriy!
 
 [tapir]: https://github.com/softwaremill/tapir
 [gatling]: https://github.com/gatling/gatling
-[babl]: https://github.com/babl-ws/babl
 [http4s]: https://github.com/http4s/http4s
 [zio-http]: https://github.com/zio/zio-http
 [zio]: https://github.com/zio/zio
