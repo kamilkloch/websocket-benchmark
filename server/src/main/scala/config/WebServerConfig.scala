@@ -58,6 +58,7 @@ object WebServerConfig {
         .withHost(host)
         .withMaxConnections(maxConnections)
         .withHttpWebSocketApp(f)
+        .withIdleTimeout(1.hour)
         .withAdditionalSocketOptions(List(
           SocketOption(StandardSocketOptions.TCP_NODELAY, java.lang.Boolean.TRUE),
           SocketOption(StandardSocketOptions.SO_REUSEADDR, java.lang.Boolean.TRUE)))
