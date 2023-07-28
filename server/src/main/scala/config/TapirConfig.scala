@@ -7,7 +7,7 @@ import org.http4s.implicits.*
 import org.http4s.server.Router
 import org.http4s.server.websocket.WebSocketBuilder2
 import sttp.capabilities.fs2.Fs2Streams
-import sttp.tapir.server.http4s.Http4sServerInterpreter
+import sttp.tapir.server.http4s.{Http4sServerInterpreter, Http4sServerOptions}
 import sttp.tapir.{CodecFormat, endpoint, webSocketBody}
 
 import scala.concurrent.duration.*
@@ -17,10 +17,15 @@ object TapirConfig {
   private val wsEndpoint = endpoint.get
     .in("ts")
     .out(webSocketBody[Long, CodecFormat.TextPlain, Long, CodecFormat.TextPlain](Fs2Streams[IO]))
-
   private val responseStream = Stream.repeatEval(IO.realTime.map(_.toMillis).delayBy(500.millis))
-  private val wsRoutes = Http4sServerInterpreter[IO]()
-    .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((in: Stream[IO, Long]) => responseStream.concurrently(in.as(())))))
+  private val serverOptions = Http4sServerOptions
+    .customiseInterceptors[IO]
+    .serverLog(None)
+    .options
+  private val wsRoutes = Http4sServerInterpreter[IO](serverOptions)
+    .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure { (in: Stream[IO, Long]) =>
+      responseStream.concurrently(in.as(()))
+    }))
 
   def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = Router("/" -> wsRoutes(wsb)).orNotFound
 }
