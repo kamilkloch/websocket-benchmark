@@ -11,8 +11,8 @@
         "ko": 0
     },
     "maxResponseTime": {
-        "total": 1034,
-        "ok": 1034,
+        "total": 1036,
+        "ok": 1036,
         "ko": 0
     },
     "meanResponseTime": {
@@ -41,20 +41,20 @@
         "ko": 0
     },
     "percentiles4": {
-        "total": 502,
-        "ok": 502,
+        "total": 503,
+        "ok": 503,
         "ko": 0
     },
     "group1": {
     "name": "t < 800 ms",
     "htmlName": "t < 800 ms",
-    "count": 6149895,
+    "count": 6149913,
     "percentage": 100
 },
     "group2": {
     "name": "800 ms <= t < 1200 ms",
     "htmlName": "t >= 800 ms <br> t < 1200 ms",
-    "count": 105,
+    "count": 87,
     "percentage": 0
 },
     "group3": {
