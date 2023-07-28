@@ -83,7 +83,7 @@ Below a quick summary of the results:
   - http4s-ember deilvers 100ms tail latency (a lot of allocations and GC, see async-profiler results),
     new [CE] 3.6-SNAPSHOT with polling helps a little, but not much.
 
-![web-server-benchmark-25k](results/web-server-benchmark-25k.png)
+![websocket-benchmark-25k](results/websocket-benchmark-25k.png)
 
 ## How to run benchmarks
 
