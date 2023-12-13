@@ -14,7 +14,7 @@ class SimpleWsServerSimulation extends Simulation {
 
   private val wsPubHttpProtocol = http.wsBaseUrl(config.wsServerUri)
 
-  private val numOfMessagesPerUser = 120
+  private val numOfMessagesPerUser = 60 * 10 // 60 seconds with 10 msg/sec
 
   def subscribe(name: String): WsSendTextFrameBuilder = {
     val req = ws(name).sendText("0")
@@ -60,7 +60,7 @@ object SimpleWsServerSimulation {
   })
 
   object config {
-    val numberOfUsers = 25000
+    val numberOfUsers = 10000
 
     val wsServerUri = "ws://172.16.255.3:8888"
 
