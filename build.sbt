@@ -41,8 +41,8 @@ lazy val commonSettings = Def.settings(
     "-Djava.net.preferIPv4Stack=true",
     "-XX:+UnlockExperimentalVMOptions",
     "-XX:+TrustFinalNonStaticFields",
-    "-Xms2g",
-    "-Xmx2g",
+    "-Xms8g",
+    "-Xmx8g",
     "-XX:+AlwaysPreTouch",
     "-XX:+UseZGC",
     "-XX:+ZGenerational"
@@ -85,8 +85,8 @@ lazy val server = (project in file("server"))
       "-J-Djava.net.preferIPv4Stack=true",
       "-J-XX:+UnlockExperimentalVMOptions",
       "-J-XX:+TrustFinalNonStaticFields",
-      "-J-Xms2g",
-      "-J-Xmx2g",
+      "-J-Xms8g",
+      "-J-Xmx8g",
       "-J-XX:+AlwaysPreTouch",
       "-J-XX:+UseZGC",
       "-J-XX:+ZGenerational"
