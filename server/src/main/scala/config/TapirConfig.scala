@@ -17,12 +17,10 @@ object TapirConfig {
   private val wsEndpoint = endpoint.get
     .in("ts")
     .out(webSocketBody[Long, CodecFormat.TextPlain, Long, CodecFormat.TextPlain](Fs2Streams[IO])
-      /*
       .concatenateFragmentedFrames(false)
       .autoPongOnPing(false)
       .ignorePong(false)
       .autoPing(None)
-       */
     )
   private val responseStream = Stream.fixedRate[IO](100.millis, dampen = false).evalMap(_ => IO.realTime.map(_.toMillis))
   private val serverOptions = Http4sServerOptions
