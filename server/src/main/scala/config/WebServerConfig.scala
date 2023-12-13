@@ -18,7 +18,7 @@ import scala.concurrent.duration.*
 
 /** Config shared among blaze/ember/zio-http http4s/tapir servers */
 object WebServerConfig {
-  private val responseStream = Stream.repeatEval(IO.realTime.map(ts => WebSocketFrame.Text(s"${ts.toMillis}")).delayBy(500.millis))
+  private val responseStream = Stream.fixedRate[IO](100.millis, dampen = false).evalMap(_ => IO.realTime.map(ts => WebSocketFrame.Text(s"${ts.toMillis}")))
   val port: Port = port"8888"
   val host: Hostname = host"0.0.0.0"
   val mainPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 2)
