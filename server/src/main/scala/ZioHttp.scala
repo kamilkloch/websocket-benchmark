@@ -12,7 +12,7 @@ object ZioHttp extends ZIOAppDefault {
     Handler.webSocket { channel =>
       ClockLive.currentTime(TimeUnit.MILLISECONDS).flatMap { ts =>
         channel.send(Read(WebSocketFrame.Text(s"$ts")))
-      }.delay(500.millis).forever
+      }.delay(100.millis).forever
     }
   private val service: Http[Any, Nothing, Request, Response] =
     Http.collectZIO[Request] {

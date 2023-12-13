@@ -17,7 +17,7 @@ object TapirConfig {
   private val wsEndpoint = endpoint.get
     .in("ts")
     .out(webSocketBody[Long, CodecFormat.TextPlain, Long, CodecFormat.TextPlain](Fs2Streams[IO]))
-  private val responseStream = Stream.repeatEval(IO.realTime.map(_.toMillis).delayBy(500.millis))
+  private val responseStream = Stream.fixedRate[IO](100.millis, dampen = false).evalMap(_ => IO.realTime.map(_.toMillis))
   private val serverOptions = Http4sServerOptions
     .customiseInterceptors[IO]
     .serverLog(None)
