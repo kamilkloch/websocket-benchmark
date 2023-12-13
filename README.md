@@ -6,8 +6,8 @@ Client and server run on two separate machines. Both share the same setup:
  - Intel® Core™ i9-13900K CPU @ 3.0GHz (max 5.8GHz, performance-cores only), 
  - RAM 64GB DDR5-4800,
  - 10Gbit network,
- - Ubuntu 23.04 (Linux 6.2), 
- - Oracle GraalVM 23.0 for Java 20.
+ - Ubuntu 23.10 (Linux 6.6.6), 
+ - Oracle JDK 21.
 
 ### Server
 
@@ -42,14 +42,14 @@ sudo apt-get -y install chrony
 
 Here is a list of NTP servers that is used in our `/etc/chrony/chrony.conf`:
 ```
-        server time5.facebook.com iburst
-       	server tempus1.gum.gov.pl
-	server tempus2.gum.gov.pl
-        server ntp1.tp.pl
-        server ntp2.tp.pl 
+server time5.facebook.com iburst
+server tempus1.gum.gov.pl
+server tempus2.gum.gov.pl
+server ntp1.tp.pl
+server ntp2.tp.pl 
 ```
 
-For non-Poland regions [other servers could be preffered](https://gist.github.com/mutin-sa/eea1c396b1e610a2da1e5550d94b0453).
+For non-Poland regions [other servers could be preferred](https://gist.github.com/mutin-sa/eea1c396b1e610a2da1e5550d94b0453).
 
 Finally, need to restart the service after (re)configuration by:
 ```
