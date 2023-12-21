@@ -1,11 +1,11 @@
 val http4sVersion = "0.23.24"
 val blazeVersion = "0.23.15"
-val tapirVersion = "1.9.4"
+val tapirVersion = "1.9.5"
 val catsEffectVersion = "3.5.2"
 val fs2Version = "3.9.3"
 val zioHttpVersion = "3.0.0-RC2"
 val zioVersion = "2.0.19"
-val gatlingVersion = "3.9.5"
+val gatlingVersion = "3.10.3"
 val logbackVersion = "1.4.14"
 
 // compiler options explicitly disabled from https://github.com/DavidGregory084/sbt-tpolecat
@@ -41,8 +41,8 @@ lazy val commonSettings = Def.settings(
     "-Djava.net.preferIPv4Stack=true",
     "-XX:+UnlockExperimentalVMOptions",
     "-XX:+TrustFinalNonStaticFields",
-    "-Xms8g",
-    "-Xmx8g",
+    "-Xms32g",
+    "-Xmx32g",
     "-XX:+AlwaysPreTouch",
     "-XX:+UseZGC",
     "-XX:+ZGenerational"
@@ -85,8 +85,8 @@ lazy val server = (project in file("server"))
       "-J-Djava.net.preferIPv4Stack=true",
       "-J-XX:+UnlockExperimentalVMOptions",
       "-J-XX:+TrustFinalNonStaticFields",
-      "-J-Xms8g",
-      "-J-Xmx8g",
+      "-J-Xms32g",
+      "-J-Xmx32g",
       "-J-XX:+AlwaysPreTouch",
       "-J-XX:+UseZGC",
       "-J-XX:+ZGenerational"
