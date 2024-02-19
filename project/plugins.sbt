@@ -8,4 +8,4 @@ addDependencyTreePlugin
 // displays sbt project's dependency updates
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.6.4")
 
-addSbtPlugin("io.gatling" % "gatling-sbt" % "4.3.3")
+addSbtPlugin("io.gatling" % "gatling-sbt" % "4.8.1")
