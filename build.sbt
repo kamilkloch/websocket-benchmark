@@ -18,7 +18,7 @@ lazy val commonSettings = Def.settings(
   name := "web-servers-benchmark",
   version := "0.1.0-SNAPSHOT",
   fork := true,
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.13",
   scalacOptions ++= Seq("-release", "21"),
   javacOptions ++= Seq("-source", "21", "-target", "21"),
   Compile / scalacOptions ~= ((options: Seq[String]) => options.filterNot(disabledScalacOptionsCompile)),
