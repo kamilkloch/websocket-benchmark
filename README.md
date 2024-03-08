@@ -7,26 +7,24 @@ Client and server run on two separate machines. Both share the same setup:
  - RAM 64GB DDR5-4800,
  - 10Gbit network,
  - Ubuntu 23.10 (Linux 6.6.6), 
- - Oracle JDK 21.
+ - Oracle JDK 21.0.2 (ZGC generational)
 
 ### Server
 
-Server code resides in the `/server` module. Server exposes a single `/ts` websocket endpoint, which emits a timestamp every 500ms.
+Server code resides in the `/server` module. Server exposes a single `/ts` websocket endpoint, which emits a timestamp every 100ms.
 This targets a scenario in which a websocket channel is used to serve live market updates to the user.  
 
 Tested servers:
- - [http4s] + blaze ([CE], [fs2] 3.7.0)
- - [http4s] + ember ([CE] 3.5.1, [fs2] 3.7.0)
- - [http4s] + blaze ([CE] 3.6-e9aeb8c, [fs2] 3.8-1af22dd)
- - [http4s] + ember ([CE] 3.6-e9aeb8c, [fs2] 3.8-1af22dd)
- - [http4s] + blaze, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0, [tapir] 1.6.3) 
- - [http4s] + ember, via [tapir] ([CE] 3.5.1, [fs2] 3.7.0, [tapir] 1.6.3)
- - [zio-http] ([zio-http] 3.0.0-RC2, [zio] 2.0.15)
-
+ - [http4s] + blaze ([CE] 3.5.4, [fs2] 3.9.4)
+ - [http4s] + blaze, via [tapir] fast-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.11) 
+ - [http4s] + blaze, via [tapir] slow-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.11) 
+ - [http4s] + blaze, via [tapir] old-1 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.0) 
+ - [http4s] + blaze, via [tapir] old-2 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.3)
+ 
 ### Client 
 
 Client code resides in the `/client` module. [Gatling] client ramps up to 25k users within 30s, 
-and each user consumes 120 messages from the websocket server (with an update every 500ms this amounts to 60s). 
+and each user consumes 600 messages from the websocket server (with an update every 100ms this amounts to 60s). 
 For each message, an absolute difference between the client timestamp and the timestamp received from the server
 is stored into an [HdrHistogram]. With clocks synchronized between the client and server, this value corresponds
 to the latency induced by the server.
@@ -63,31 +61,24 @@ sudo systemctl restart chrony
 Benchmark results reside in `/results`. 
 ```
  results
- ├── http4s-blaze      (CE 3.5.1, fs2 3.7.0)
- ├── http4s-blaze-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
- ├── http4s-ember      (CE 3.5.1, fs2 3.7.0)
- ├── http4s-ember-new  (CE 3.6-e9aeb8c, fs2 3.8-1af22dd)
- ├── tapir-blaze       (CE 3.5.1, fs2 3.7.0, tapir 1.6.3)
- ├── tapir-ember       (CE 3.5.1, fs2 3.7.0, tapir 1.6.3)
- └── zio-http          (zio-http 3.0.0-RC2, zio 2.0.15)
+ ├── http4s-blaze          (CE 3.5.4, fs2 3.9.4)
+ ├── tapir-blaze           (CE 3.5.4, fs2 3.9.4, tapir 1.6.11)
+ ├── tapir-blaze-fast-path (CE 3.5.4, fs2 3.9.4, tapir 1.6.11)
+ ├── tapir-blaze-slow-path (CE 3.5.4, fs2 3.9.4, tapir 1.6.11)
+ ├── tapir-blaze-old-1     (CE 3.5.4, fs2 3.9.4, tapir 1.6.0)
+ ├── tapir-blaze-old-2     (CE 3.5.4, fs2 3.9.4, tapir 1.6.3)
 ```
 
 Each folder contains:
   - [HdrHistogram] latency,
-  - [Gatling] html report (useful to see variance in the expected 500ms between the updates across time),
+  - [Gatling] html report (useful to see variance in the expected 100ms between the updates across time),
   - [async-profiler] flame graphs in 2 flavours: per-thread and aggregated.
-
-Below a quick summary of the results: 
-  - http4s-blaze, htt4s-blaze-new and zio-http are head-to-head with <5ms tail latency, same 
-    for tapir-blaze and tapir-ember (after updates to the websocket interpreter in tapir 1.6.3: https://github.com/softwaremill/tapir/pull/3068)
-  - http4s-ember on [CE] 3.5.1 delivers 90ms tail latency (a lot of allocations and GC, see async-profiler results),
-    new [CE] 3.6-SNAPSHOT with polling helps a lot
 
 ![websocket-benchmark-25k](results/websocket-benchmark-25k.png)
 
 ## How to run benchmarks
 
-Note: you need Java 17 to build and run the benchmarks. 
+Note: you need Java 21 to build and run the benchmarks. 
 
 1. Build server binaries via 
    ```bash
