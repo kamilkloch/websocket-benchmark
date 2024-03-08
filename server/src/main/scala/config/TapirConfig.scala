@@ -10,6 +10,7 @@ import sttp.capabilities.fs2.Fs2Streams
 import sttp.tapir.server.http4s.{Http4sServerInterpreter, Http4sServerOptions}
 import sttp.tapir.{CodecFormat, endpoint, webSocketBody}
 
+import java.util.concurrent.atomic.AtomicLong
 import scala.concurrent.duration.*
 
 /** Config shared among blaze/ember tapir servers */
@@ -22,7 +23,13 @@ object TapirConfig {
       .ignorePong(false)
       .autoPing(None)
     )
-  private val responseStream = Stream.fixedRate[IO](100.millis, dampen = false).evalMap(_ => IO.realTime.map(_.toMillis))
+  private val responseStream: Stream[IO, Long] =
+    Stream.eval(IO(new AtomicLong(0))).flatMap { ts =>
+      Stream.fixedRate[IO](100.millis, dampen = false).map(_ => ts.updateAndGet {
+        case 0 => System.currentTimeMillis()
+        case x => x + 100
+      })
+    }
   private val serverOptions = Http4sServerOptions
     .customiseInterceptors[IO]
     .serverLog(None)

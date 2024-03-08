@@ -1,12 +1,10 @@
-val http4sVersion = "0.23.25"
+val http4sVersion = "0.23.26"
 val blazeVersion = "0.23.16"
-val tapirVersion = "1.9.9"
-val catsEffectVersion = "3.5.3"
+val tapirVersion = "1.9.11"
+val catsEffectVersion = "3.5.4"
 val fs2Version = "3.9.4"
-val zioHttpVersion = "3.0.0-RC2"
-val zioVersion = "2.0.19"
-val gatlingVersion = "3.10.3"
-val logbackVersion = "1.4.14"
+val gatlingVersion = "3.10.4"
+val logbackVersion = "1.5.3"
 
 // compiler options explicitly disabled from https://github.com/DavidGregory084/sbt-tpolecat
 val disabledScalacOptionsCompile = Set(
@@ -59,16 +57,10 @@ lazy val server = (project in file("server"))
       "org.http4s" %% "http4s-dsl" % http4sVersion,
       "org.http4s" %% "http4s-blaze-server" % blazeVersion,
       "org.http4s" %% "http4s-ember-server" % http4sVersion,
-
       "com.softwaremill.sttp.tapir" %% "tapir-http4s-server" % tapirVersion,
-
       "org.typelevel" %% "cats-effect" % catsEffectVersion,
       "co.fs2" %% "fs2-core" % fs2Version,
       "co.fs2" %% "fs2-io" % fs2Version,
-
-      "dev.zio" %% "zio" % zioVersion,
-      "dev.zio" %% "zio-http" % zioHttpVersion,
-
       "ch.qos.logback" % "logback-classic" % logbackVersion,
     )
   )
@@ -101,7 +93,6 @@ lazy val client = (project in file("client"))
     libraryDependencies ++= Seq(
       "io.gatling.highcharts" % "gatling-charts-highcharts" % gatlingVersion % Test,
       "io.gatling" % "gatling-test-framework" % gatlingVersion % Test,
-
       "ch.qos.logback" % "logback-classic" % logbackVersion,
     ),
     Gatling / javaOptions := overrideDefaultJavaOptions(

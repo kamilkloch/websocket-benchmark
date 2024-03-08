@@ -14,17 +14,18 @@ import org.http4s.server.websocket.WebSocketBuilder2
 import org.http4s.websocket.WebSocketFrame
 
 import java.net.StandardSocketOptions
+import java.util.concurrent.atomic.AtomicLong
 import scala.concurrent.duration.*
 
 /** Config shared among blaze/ember/zio-http http4s/tapir servers */
 object WebServerConfig {
   val responseStream: Stream[IO, WebSocketFrame.Text] =
-    Stream.eval(IO.realTime.map(_.toMillis)).flatMap { ts =>
-      Stream.eval(Ref.of[IO, Long](ts)).flatMap { ref =>
-        Stream.fixedRate[IO](100.millis, dampen = false).evalMap(_ => ref.getAndUpdate(_ + 100).map(ts => WebSocketFrame.Text(s"${ts}")))
-      }
+    Stream.eval(IO(new AtomicLong(0))).flatMap { ts =>
+      Stream.fixedRate[IO](100.millis, dampen = false).map(_ => WebSocketFrame.Text(ts.updateAndGet {
+        case 0 => System.currentTimeMillis()
+        case x => x + 100
+      }.toString))
     }
-
   val port: Port = port"8888"
   val host: Hostname = host"0.0.0.0"
   val mainPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 2)
