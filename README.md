@@ -16,10 +16,10 @@ This targets a scenario in which a websocket channel is used to serve live marke
 
 Tested servers:
  - [http4s] + blaze ([CE] 3.5.4, [fs2] 3.9.4)
- - [http4s] + blaze, via [tapir] fast-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.11) 
- - [http4s] + blaze, via [tapir] slow-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.11) 
- - [http4s] + blaze, via [tapir] old-1 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.0) 
+ - [http4s] + blaze, via [tapir] fast-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
+ - [http4s] + blaze, via [tapir] slow-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
  - [http4s] + blaze, via [tapir] old-2 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.3)
+ - [http4s] + blaze, via [tapir] old-1 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.0) 
  
 ### Client 
 
@@ -153,12 +153,11 @@ cat /proc/cpuinfo | grep -i mhz
 Benchmark results reside in `/results`. 
 ```
  results
- ├── http4s-blaze          (CE 3.5.4, fs2 3.9.4)
- ├── tapir-blaze           (CE 3.5.4, fs2 3.9.4, tapir 1.6.11)
- ├── tapir-blaze-fast-path (CE 3.5.4, fs2 3.9.4, tapir 1.6.11)
- ├── tapir-blaze-slow-path (CE 3.5.4, fs2 3.9.4, tapir 1.6.11)
- ├── tapir-blaze-old-1     (CE 3.5.4, fs2 3.9.4, tapir 1.6.0)
- ├── tapir-blaze-old-2     (CE 3.5.4, fs2 3.9.4, tapir 1.6.3)
+ ├── http4s                 (CE 3.5.4, fs2 3.9.4)
+ ├── tapir-1.6.0            (CE 3.5.4, fs2 3.9.4, tapir 1.6.0)
+ ├── tapir-1.6.3            (CE 3.5.4, fs2 3.9.4, tapir 1.6.3)
+ ├── tapir-1.9.11-fast-path (CE 3.5.4, fs2 3.9.4, tapir 1.9.11)
+ ├── tapir-1.9.11-slow-path (CE 3.5.4, fs2 3.9.4, tapir 1.9.11)
 ```
 
 Each folder contains:
