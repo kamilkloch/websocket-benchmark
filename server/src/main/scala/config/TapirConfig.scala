@@ -18,10 +18,13 @@ object TapirConfig {
   private val wsEndpoint = endpoint.get
     .in("ts")
     .out(webSocketBody[Long, CodecFormat.TextPlain, Long, CodecFormat.TextPlain](Fs2Streams[IO])
+/* Uncomment for "fast-path" of Tapir websocket integration
+      .decodeCloseRequests(true)
       .concatenateFragmentedFrames(false)
       .autoPongOnPing(false)
       .ignorePong(false)
       .autoPing(None)
+*/
     )
   private val responseStream: Stream[IO, Long] =
     Stream.eval(IO(new AtomicLong(0))).flatMap { ts =>

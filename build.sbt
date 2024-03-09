@@ -41,9 +41,13 @@ lazy val commonSettings = Def.settings(
     "-XX:+TrustFinalNonStaticFields",
     "-Xms32g",
     "-Xmx32g",
-    "-XX:+AlwaysPreTouch",
     "-XX:+UseZGC",
-    "-XX:+ZGenerational"
+    "-XX:+ZGenerational",
+    "-XX:+AlwaysPreTouch",
+    "-XX:TLABSize=1m",
+    "-XX:-ResizeTLAB",
+    "-XX:+UseTransparentHugePages",
+    "-XX:TimerSlack=5"
   ),
 )
 
@@ -79,9 +83,13 @@ lazy val server = (project in file("server"))
       "-J-XX:+TrustFinalNonStaticFields",
       "-J-Xms32g",
       "-J-Xmx32g",
-      "-J-XX:+AlwaysPreTouch",
       "-J-XX:+UseZGC",
-      "-J-XX:+ZGenerational"
+      "-J-XX:+ZGenerational",
+      "-J-XX:+AlwaysPreTouch",
+      "-J-XX:TLABSize=1m",
+      "-J-XX:-ResizeTLAB",
+      "-J-XX:+UseTransparentHugePages",
+      "-J-XX:TimerSlack=5"
     )
   )
 
@@ -104,9 +112,13 @@ lazy val client = (project in file("client"))
       "-XX:+TrustFinalNonStaticFields",
       "-Xms32g",
       "-Xmx32g",
-      "-XX:+AlwaysPreTouch",
       "-XX:+UseZGC",
-      "-XX:+ZGenerational"
+      "-XX:+ZGenerational",
+      "-XX:+AlwaysPreTouch",
+      "-XX:TLABSize=1m",
+      "-XX:-ResizeTLAB",
+      "-XX:+UseTransparentHugePages",
+      "-XX:TimerSlack=5"
     ),
   )
 

@@ -28,7 +28,7 @@ object WebServerConfig {
     }
   val port: Port = port"8888"
   val host: Hostname = host"0.0.0.0"
-  val mainPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 2)
+  val mainPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors())
   val connectorPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 4)
   private val maxConnections: Int = 65536
 
