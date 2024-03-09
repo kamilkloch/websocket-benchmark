@@ -17,11 +17,21 @@ This targets a scenario in which a websocket channel is used to serve live marke
 Tested servers:
  - [http4s] + blaze ([CE] 3.5.4, [fs2] 3.9.4)
  - [http4s] + blaze, via [tapir] fast-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
- - [http4s] + blaze, via [tapir] slow-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
- - [http4s] + blaze, via [tapir] old-2 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.3)
- - [http4s] + blaze, via [tapir] old-1 ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.0) 
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.3)
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.0)
+
+The following configuration of Tapir endpoint out was used for the "fast-path" mode:
+```scala
+   webSocketBody(Fs2Streams[IO])
+      .decodeCloseRequests(true)
+      .concatenateFragmentedFrames(false)
+      .autoPongOnPing(false)
+      .ignorePong(false)
+      .autoPing(None)
+```
  
-### Client 
+### Client
 
 Client code resides in the `/client` module. [Gatling] client ramps up to 25k users within 30s, 
 and each user consumes 600 messages from the websocket server (with an update every 100ms this amounts to 60s). 
@@ -153,19 +163,17 @@ cat /proc/cpuinfo | grep -i mhz
 Benchmark results reside in `/results`. 
 ```
  results
- ├── http4s                 (CE 3.5.4, fs2 3.9.4)
- ├── tapir-1.6.0            (CE 3.5.4, fs2 3.9.4, tapir 1.6.0)
- ├── tapir-1.6.3            (CE 3.5.4, fs2 3.9.4, tapir 1.6.3)
- ├── tapir-1.9.11-fast-path (CE 3.5.4, fs2 3.9.4, tapir 1.9.11)
- ├── tapir-1.9.11-slow-path (CE 3.5.4, fs2 3.9.4, tapir 1.9.11)
+ ├── http4s          (CE 3.5.4, fs2 3.9.4)
+ ├── tapir-1.6.0     (CE 3.5.4, fs2 3.9.4, tapir 1.6.0)
+ ├── tapir-1.6.3     (CE 3.5.4, fs2 3.9.4, tapir 1.6.3)
+ ├── tapir-1.9.11    (CE 3.5.4, fs2 3.9.4, tapir 1.9.11)
+ ├── tapir-1.9.11-fp (CE 3.5.4, fs2 3.9.4, tapir 1.9.11, fast-path)
 ```
 
 Each folder contains:
   - [HdrHistogram] latency,
   - [Gatling] html report (useful to see variance in the expected 100ms between the updates across time),
-  - [async-profiler] flame graphs in 2 flavours: per-thread and aggregated.
-
-![websocket-benchmark-25k](results/websocket-benchmark-25k.png)
+  - [async-profiler] interactive flame-graph with per-thread aggregation of CPU cycles for stack frames.
 
 ## How to run benchmarks
 
