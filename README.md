@@ -56,6 +56,98 @@ sudo systemctl restart chrony
 
 [Here](https://engineering.fb.com/2020/03/18/production-engineering/ntp-service/) is a great article about time synchronization in Facebook.
 
+## OS tuning
+
+Use transparent huge pages by starting JVM services with the `-XX:+UseTransparentHugePages` option and the following 
+`transparent_hugepage` configuration in Linux:
+
+```sh
+echo madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled
+echo advise | sudo tee /sys/kernel/mm/transparent_hugepage/shmem_enabled
+echo defer | sudo tee /sys/kernel/mm/transparent_hugepage/defrag
+echo 1 | sudo tee /sys/kernel/mm/transparent_hugepage/khugepaged/defrag
+```
+
+Add the following configuration to `/etc/sysctl.conf`:
+```txt
+# Memory (all processes)
+vm.swappiness = 0
+vm.stat_interval=120
+vm.min_free_kbytes = 4194304
+vm.zone_reclaim_mode = 0
+kernel.numa_balancing = 0
+
+# File System (http/ws/db servers)
+fs.file-max = 10000000
+fs.nr_open = 10000000
+vm.dirty_ratio = 80
+vm.dirty_background_ratio = 5
+vm.dirty_expire_centisecs = 12000
+
+# Networking (aeron, http/ws servers) 
+net.core.somaxconn = 65535
+net.core.rmem_max = 4194304
+net.core.rmem_default = 65536
+net.core.wmem_max = 4194304
+net.core.wmem_default = 65536
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_mem = 786432 1697152 1945728
+net.ipv4.tcp_rmem = 4096 65536 4194304
+net.ipv4.tcp_wmem = 4096 65536 4194304
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_syn_retries = 2
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_max_orphans = 65536
+net.ipv4.tcp_fin_timeout = 10
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_congestion_control = htcp
+net.ipv4.tcp_no_metrics_save = 1
+net.ipv4.tcp_window_scaling = 1
+
+# Profiling (perf, async-profiler)
+kernel.perf_event_paranoid = -1
+kernel.kptr_restrict = 0
+kernel.perf_event_max_stack = 1024
+kernel.perf_event_mlock_kb = 8096
+```
+
+And then run:
+```sh
+sudo sysctl -p
+```
+
+Install and configure an after boot service that will turn on `performance` mode for scaling governor:
+```sh
+sudo apt install cpufrequtils
+```
+
+Then, perform a restart and set scaling governor to performance:
+
+```sh
+sudo cpufreq-set -g performance
+```
+
+Note: If you ran the above command without restarting, then you'd have to edit the file in `/etc/init.d/cpufrequtils`
+and change the line that says `GOVERNOR=ondemand` to `GOVERNOR=performance` then run:
+
+```sh
+sudo sh /etc/init.d/cpufrequtils start
+```
+
+It'd probably prompt you to restart your systemctl daemon, so do it like this:
+
+```sh
+sudo systemctl daemon-reload
+```
+
+Then view your CPU frequency with:
+
+```sh
+cat /proc/cpuinfo | grep -i mhz
+```
+
 ## Benchmarks
 
 Benchmark results reside in `/results`. 
