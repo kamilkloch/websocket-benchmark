@@ -38,7 +38,7 @@ object TapirConfig {
     .serverLog(None)
     .options
   private val wsRoutes = Http4sServerInterpreter[IO](serverOptions)
-    .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((_: Stream[IO, Long]) => responseStream)))
+    .toWebSocketRoutes(wsEndpoint.serverLogicSuccess(_ => IO.pure((in: Stream[IO, Long]) => responseStream.concurrently(in))))
 
   def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = Router("/" -> wsRoutes(wsb)).orNotFound
 }
