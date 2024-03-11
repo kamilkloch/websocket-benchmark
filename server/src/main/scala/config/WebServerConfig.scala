@@ -28,8 +28,6 @@ object WebServerConfig {
     }
   val port: Port = port"8888"
   val host: Hostname = host"0.0.0.0"
-  val mainPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors())
-  val connectorPoolSize: Int = Math.max(2, Runtime.getRuntime.availableProcessors() / 4)
   private val maxConnections: Int = 65536
 
   def service(wsb: WebSocketBuilder2[IO]): HttpApp[IO] = {
@@ -50,7 +48,6 @@ object WebServerConfig {
       BlazeServerBuilder[IO]
         .bindHttp(port.value, host.toString)
         .withMaxConnections(maxConnections)
-        .withConnectorPoolSize(connectorPoolSize)
         .withHttpWebSocketApp(f)
         .withDefaultTcpNoDelay
         .withDefaultSocketReuseAddress
