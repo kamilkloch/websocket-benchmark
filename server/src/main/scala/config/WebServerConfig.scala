@@ -38,7 +38,7 @@ object WebServerConfig {
     val receive: Pipe[IO, WebSocketFrame, Unit] = _.as(())
 
     HttpRoutes.of[IO] {
-        case GET -> Root / "ts" => wsb.withDefragment(false).withFilterPingPongs(true).build(responseStream, receive)
+        case GET -> Root / "ts" => wsb.withDefragment(false).withFilterPingPongs(false).build(responseStream, receive)
       }
       .orNotFound
   }
