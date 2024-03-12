@@ -31,30 +31,30 @@
         "ko": 0
     },
     "percentiles2": {
-        "total": 101,
-        "ok": 101,
+        "total": 103,
+        "ok": 103,
         "ko": 0
     },
     "percentiles3": {
-        "total": 140,
-        "ok": 140,
+        "total": 151,
+        "ok": 151,
         "ko": 0
     },
     "percentiles4": {
-        "total": 205,
-        "ok": 205,
+        "total": 215,
+        "ok": 215,
         "ko": 0
     },
     "group1": {
     "name": "t < 800 ms",
     "htmlName": "t < 800 ms",
-    "count": 60299711,
+    "count": 60299774,
     "percentage": 100
 },
     "group2": {
     "name": "800 ms <= t < 1200 ms",
     "htmlName": "t >= 800 ms <br> t < 1200 ms",
-    "count": 289,
+    "count": 226,
     "percentage": 0
 },
     "group3": {
