@@ -46,6 +46,11 @@ lazy val commonSettings = Def.settings(
     "-XX:+AlwaysPreTouch",
     "-XX:TLABSize=1m",
     "-XX:-ResizeTLAB",
+    "-XX:InitialCodeCacheSize=256m",
+    "-XX:ReservedCodeCacheSize=256m",
+    "-XX:NonNMethodCodeHeapSize=16m",
+    "-XX:NonProfiledCodeHeapSize=120m",
+    "-XX:ProfiledCodeHeapSize=120m",
     "-XX:+UseTransparentHugePages",
     "-XX:TimerSlack=5"
   ),
@@ -88,6 +93,11 @@ lazy val server = (project in file("server"))
       "-J-XX:+AlwaysPreTouch",
       "-J-XX:TLABSize=1m",
       "-J-XX:-ResizeTLAB",
+      "-J-XX:InitialCodeCacheSize=256m",
+      "-J-XX:ReservedCodeCacheSize=256m",
+      "-J-XX:NonNMethodCodeHeapSize=16m",
+      "-J-XX:NonProfiledCodeHeapSize=120m",
+      "-J-XX:ProfiledCodeHeapSize=120m",
       "-J-XX:+UseTransparentHugePages",
       "-J-XX:TimerSlack=5"
     )
@@ -117,6 +127,11 @@ lazy val client = (project in file("client"))
       "-XX:+AlwaysPreTouch",
       "-XX:TLABSize=1m",
       "-XX:-ResizeTLAB",
+      "-XX:InitialCodeCacheSize=256m",
+      "-XX:ReservedCodeCacheSize=256m",
+      "-XX:NonNMethodCodeHeapSize=16m",
+      "-XX:NonProfiledCodeHeapSize=120m",
+      "-XX:ProfiledCodeHeapSize=120m",
       "-XX:+UseTransparentHugePages",
       "-XX:TimerSlack=5"
     ),
