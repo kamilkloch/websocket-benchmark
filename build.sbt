@@ -1,8 +1,8 @@
-val http4sVersion = "0.23.26"
-val blazeVersion = "0.23.16"
-val tapirVersion = "1.9.11"
-val catsEffectVersion = "3.5.4"
-val fs2Version = "3.9.4"
+val http4sVersion = "0.23.22"
+val blazeVersion = "0.23.15"
+val tapirVersion = "1.6.0"
+val catsEffectVersion = "3.5.1"
+val fs2Version = "3.7.0"
 val gatlingVersion = "3.10.4"
 val logbackVersion = "1.5.3"
 
@@ -16,9 +16,9 @@ lazy val commonSettings = Def.settings(
   name := "web-servers-benchmark",
   version := "0.1.0-SNAPSHOT",
   fork := true,
-  scalaVersion := "2.13.13",
-  scalacOptions ++= Seq("-release", "21"),
-  javacOptions ++= Seq("-source", "21", "-target", "21"),
+  scalaVersion := "2.13.12",
+  scalacOptions ++= Seq("-release", "17"),
+  javacOptions ++= Seq("-source", "17", "-target", "17"),
   Compile / scalacOptions ~= ((options: Seq[String]) => options.filterNot(disabledScalacOptionsCompile)),
   Compile / scalacOptions ++= Seq(
     "-Wconf:any:warning-verbose", // print warnings with their category, site, and (for deprecations) origin and since-version
@@ -30,29 +30,9 @@ lazy val commonSettings = Def.settings(
     "-Wnonunit-statement",
   ),
   javaOptions := Seq(
-    "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
-    "--add-opens", "java.base/java.util.zip=ALL-UNNAMED",
-    "-Dcats.effect.tracing.mode=none",
-    "-Dcats.effect.tracing.exceptions.enhanced=false",
-    "-Dcats.effect.tracing.buffer.size=64",
-    "-Djava.lang.Integer.IntegerCache.high=65536",
-    "-Djava.net.preferIPv4Stack=true",
-    "-XX:+UnlockExperimentalVMOptions",
-    "-XX:+TrustFinalNonStaticFields",
     "-Xms32g",
     "-Xmx32g",
-    "-XX:+UseZGC",
-    "-XX:+ZGenerational",
-    "-XX:+AlwaysPreTouch",
-    "-XX:TLABSize=1m",
-    "-XX:-ResizeTLAB",
-    "-XX:InitialCodeCacheSize=256m",
-    "-XX:ReservedCodeCacheSize=256m",
-    "-XX:NonNMethodCodeHeapSize=16m",
-    "-XX:NonProfiledCodeHeapSize=120m",
-    "-XX:ProfiledCodeHeapSize=120m",
-    "-XX:+UseTransparentHugePages",
-    "-XX:TimerSlack=5"
+    "-XX:+UseZGC"
   ),
 )
 
@@ -75,31 +55,9 @@ lazy val server = (project in file("server"))
   )
   .settings(
     Universal / javaOptions := Seq(
-      "-J--add-opens",
-      "-Jjava.base/sun.nio.ch=ALL-UNNAMED",
-      "-J--add-opens",
-      "-Jjava.base/java.util.zip=ALL-UNNAMED",
-      "-J-Dcats.effect.tracing.mode=none",
-      "-J-Dcats.effect.tracing.exceptions.enhanced=false",
-      "-J-Dcats.effect.tracing.buffer.size=64",
-      "-J-Djava.lang.Integer.IntegerCache.high=65536",
-      "-J-Djava.net.preferIPv4Stack=true",
-      "-J-XX:+UnlockExperimentalVMOptions",
-      "-J-XX:+TrustFinalNonStaticFields",
       "-J-Xms32g",
       "-J-Xmx32g",
-      "-J-XX:+UseZGC",
-      "-J-XX:+ZGenerational",
-      "-J-XX:+AlwaysPreTouch",
-      "-J-XX:TLABSize=1m",
-      "-J-XX:-ResizeTLAB",
-      "-J-XX:InitialCodeCacheSize=256m",
-      "-J-XX:ReservedCodeCacheSize=256m",
-      "-J-XX:NonNMethodCodeHeapSize=16m",
-      "-J-XX:NonProfiledCodeHeapSize=120m",
-      "-J-XX:ProfiledCodeHeapSize=120m",
-      "-J-XX:+UseTransparentHugePages",
-      "-J-XX:TimerSlack=5"
+      "-J-XX:+UseZGC"
     )
   )
 
@@ -114,26 +72,9 @@ lazy val client = (project in file("client"))
       "ch.qos.logback" % "logback-classic" % logbackVersion,
     ),
     Gatling / javaOptions := overrideDefaultJavaOptions(
-      "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
-      "--add-opens", "java.base/java.util.zip=ALL-UNNAMED",
-      "-Djava.lang.Integer.IntegerCache.high=65536",
-      "-Djava.net.preferIPv4Stack=true",
-      "-XX:+UnlockExperimentalVMOptions",
-      "-XX:+TrustFinalNonStaticFields",
       "-Xms32g",
       "-Xmx32g",
-      "-XX:+UseZGC",
-      "-XX:+ZGenerational",
-      "-XX:+AlwaysPreTouch",
-      "-XX:TLABSize=1m",
-      "-XX:-ResizeTLAB",
-      "-XX:InitialCodeCacheSize=256m",
-      "-XX:ReservedCodeCacheSize=256m",
-      "-XX:NonNMethodCodeHeapSize=16m",
-      "-XX:NonProfiledCodeHeapSize=120m",
-      "-XX:ProfiledCodeHeapSize=120m",
-      "-XX:+UseTransparentHugePages",
-      "-XX:TimerSlack=5"
+      "-XX:+UseZGC"
     ),
   )
 
