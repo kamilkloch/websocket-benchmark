@@ -38,7 +38,7 @@ object WebServerConfig {
     val receive: Pipe[IO, WebSocketFrame, Unit] = _.as(())
 
     HttpRoutes.of[IO] {
-        case GET -> Root / "ts" => wsb.withDefragment(false).withFilterPingPongs(false).build(responseStream, receive)
+        case GET -> Root / "ts" => wsb/*.withDefragment(false).withFilterPingPongs(false)*/.build(responseStream, receive)
       }
       .orNotFound
   }
@@ -49,8 +49,10 @@ object WebServerConfig {
         .bindHttp(port.value, host.toString)
         .withMaxConnections(maxConnections)
         .withHttpWebSocketApp(f)
+/*
         .withDefaultTcpNoDelay
         .withDefaultSocketReuseAddress
+*/
         .resource
     }
   }
@@ -63,9 +65,11 @@ object WebServerConfig {
         .withMaxConnections(maxConnections)
         .withHttpWebSocketApp(f)
         .withIdleTimeout(1.hour)
+/*
         .withAdditionalSocketOptions(List(
           SocketOption(StandardSocketOptions.TCP_NODELAY, java.lang.Boolean.TRUE),
           SocketOption(StandardSocketOptions.SO_REUSEADDR, java.lang.Boolean.TRUE)))
+*/
         .build
     }
   }
