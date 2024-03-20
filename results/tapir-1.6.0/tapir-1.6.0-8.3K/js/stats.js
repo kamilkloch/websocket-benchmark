@@ -16,8 +16,8 @@ stats: {
         "ko": "-"
     },
     "maxResponseTime": {
-        "total": "374",
-        "ok": "374",
+        "total": "358",
+        "ok": "358",
         "ko": "-"
     },
     "meanResponseTime": {
@@ -46,8 +46,8 @@ stats: {
         "ko": "-"
     },
     "percentiles4": {
-        "total": "160",
-        "ok": "160",
+        "total": "161",
+        "ok": "161",
         "ko": "-"
     },
     "group1": {
@@ -99,8 +99,8 @@ stats: {
         "ko": "-"
     },
     "maxResponseTime": {
-        "total": "345",
-        "ok": "345",
+        "total": "339",
+        "ok": "339",
         "ko": "-"
     },
     "meanResponseTime": {
@@ -124,13 +124,13 @@ stats: {
         "ko": "-"
     },
     "percentiles3": {
-        "total": "56",
-        "ok": "56",
+        "total": "55",
+        "ok": "55",
         "ko": "-"
     },
     "percentiles4": {
-        "total": "309",
-        "ok": "309",
+        "total": "304",
+        "ok": "304",
         "ko": "-"
     },
     "group1": {
@@ -181,8 +181,8 @@ stats: {
         "ko": "-"
     },
     "maxResponseTime": {
-        "total": "374",
-        "ok": "374",
+        "total": "358",
+        "ok": "358",
         "ko": "-"
     },
     "meanResponseTime": {
@@ -211,8 +211,8 @@ stats: {
         "ko": "-"
     },
     "percentiles4": {
-        "total": "184",
-        "ok": "184",
+        "total": "185",
+        "ok": "185",
         "ko": "-"
     },
     "group1": {
@@ -263,8 +263,8 @@ stats: {
         "ko": "-"
     },
     "maxResponseTime": {
-        "total": "79",
-        "ok": "79",
+        "total": "60",
+        "ok": "60",
         "ko": "-"
     },
     "meanResponseTime": {
@@ -283,8 +283,8 @@ stats: {
         "ko": "-"
     },
     "percentiles2": {
-        "total": "1",
-        "ok": "1",
+        "total": "0",
+        "ok": "0",
         "ko": "-"
     },
     "percentiles3": {
@@ -293,8 +293,8 @@ stats: {
         "ko": "-"
     },
     "percentiles4": {
-        "total": "35",
-        "ok": "35",
+        "total": "37",
+        "ok": "37",
         "ko": "-"
     },
     "group1": {
@@ -530,7 +530,7 @@ stats: {
     },
     "percentiles2": {
         "total": "0",
-        "ok": "1",
+        "ok": "0",
         "ko": "-"
     },
     "percentiles3": {

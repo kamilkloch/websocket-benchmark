@@ -16,8 +16,8 @@
         "ko": 0
     },
     "maxResponseTime": {
-        "total": 374,
-        "ok": 374,
+        "total": 358,
+        "ok": 358,
         "ko": 0
     },
     "meanResponseTime": {
@@ -46,8 +46,8 @@
         "ko": 0
     },
     "percentiles4": {
-        "total": 160,
-        "ok": 160,
+        "total": 161,
+        "ok": 161,
         "ko": 0
     },
     "group1": {
@@ -99,8 +99,8 @@
         "ko": 0
     },
     "maxResponseTime": {
-        "total": 345,
-        "ok": 345,
+        "total": 339,
+        "ok": 339,
         "ko": 0
     },
     "meanResponseTime": {
@@ -124,13 +124,13 @@
         "ko": 0
     },
     "percentiles3": {
-        "total": 56,
-        "ok": 56,
+        "total": 55,
+        "ok": 55,
         "ko": 0
     },
     "percentiles4": {
-        "total": 309,
-        "ok": 309,
+        "total": 304,
+        "ok": 304,
         "ko": 0
     },
     "group1": {
@@ -181,8 +181,8 @@
         "ko": 0
     },
     "maxResponseTime": {
-        "total": 374,
-        "ok": 374,
+        "total": 358,
+        "ok": 358,
         "ko": 0
     },
     "meanResponseTime": {
@@ -211,8 +211,8 @@
         "ko": 0
     },
     "percentiles4": {
-        "total": 184,
-        "ok": 184,
+        "total": 185,
+        "ok": 185,
         "ko": 0
     },
     "group1": {
@@ -263,8 +263,8 @@
         "ko": 0
     },
     "maxResponseTime": {
-        "total": 79,
-        "ok": 79,
+        "total": 60,
+        "ok": 60,
         "ko": 0
     },
     "meanResponseTime": {
@@ -283,8 +283,8 @@
         "ko": 0
     },
     "percentiles2": {
-        "total": 1,
-        "ok": 1,
+        "total": 0,
+        "ok": 0,
         "ko": 0
     },
     "percentiles3": {
@@ -293,8 +293,8 @@
         "ko": 0
     },
     "percentiles4": {
-        "total": 35,
-        "ok": 35,
+        "total": 37,
+        "ok": 37,
         "ko": 0
     },
     "group1": {
@@ -530,7 +530,7 @@
     },
     "percentiles2": {
         "total": 0,
-        "ok": 1,
+        "ok": 0,
         "ko": 0
     },
     "percentiles3": {
