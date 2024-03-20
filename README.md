@@ -7,7 +7,7 @@ Client and server run on two separate machines. Both share the same setup:
  - RAM 64GB DDR5-4800,
  - 10Gbit network,
  - Ubuntu 23.10 (Linux 6.6.6), 
- - Oracle JDK 21.0.2 (ZGC generational)
+ - Oracle JDK 22 (ZGC generational with latest patches)
 
 ### Server
 
@@ -15,11 +15,11 @@ Server code resides in the `/server` module. Server exposes a single `/ts` webso
 This targets a scenario in which a websocket channel is used to serve live market updates to the user.  
 
 Tested servers:
- - [http4s] + blaze ([CE] 3.5.4, [fs2] 3.9.4)
- - [http4s] + blaze, via [tapir] fast-path ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
- - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.9.11) 
- - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.3)
- - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.9.4, [tapir] 1.6.0)
+ - [http4s] + blaze ([CE] 3.5.4, [fs2] 3.10.0)
+ - [http4s] + blaze, via [tapir] fast-path ([CE] 3.5.4, [fs2] 3.10.0, [tapir] 1.10.0) 
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.10.0, [tapir] 1.10.0) 
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.10.0, [tapir] 1.6.3)
+ - [http4s] + blaze, via [tapir] ([CE] 3.5.4, [fs2] 3.10.0, [tapir] 1.6.0)
 
 The following configuration of Tapir endpoint out was used for the "fast-path" mode:
 ```scala
@@ -163,11 +163,14 @@ cat /proc/cpuinfo | grep -i mhz
 Benchmark results reside in `/results`. 
 ```
  results
- ├── http4s          (CE 3.5.4, fs2 3.9.4)
- ├── tapir-1.6.0     (CE 3.5.4, fs2 3.9.4, tapir 1.6.0)
- ├── tapir-1.6.3     (CE 3.5.4, fs2 3.9.4, tapir 1.6.3)
- ├── tapir-1.9.11    (CE 3.5.4, fs2 3.9.4, tapir 1.9.11)
- ├── tapir-1.9.11-fp (CE 3.5.4, fs2 3.9.4, tapir 1.9.11, fast-path)
+ ├── http4s          (JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0)
+ ├── http4s-no       (JDK 17 without optimizations, CE 3.5.4, fs2 3.10.0)
+ ├── http4s-co       (coordinated ommision, JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0)
+ ├── tapir-1.6.0     (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.0)
+ ├── tapir-1.6.0-no  (JDK 17 without optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.0)
+ ├── tapir-1.6.3     (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.3)
+ ├── tapir-1.10.0    (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.10.0)
+ ├── tapir-1.10.0-fp (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.10.0, fast-path)
 ```
 
 Each folder contains:
