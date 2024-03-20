@@ -7,7 +7,7 @@ Client and server run on two separate machines. Both share the same setup:
  - RAM 64GB DDR5-4800,
  - 10Gbit network,
  - Ubuntu 23.10 (Linux 6.6.6), 
- - Oracle JDK 22 (ZGC generational with latest patches)
+ - Oracle JDK 17 (Old ZGC) / 22 (ZGC generational with latest patches)
 
 ### Server
 
@@ -166,11 +166,11 @@ Benchmark results reside in `/results`.
  ├── http4s          (JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0)
  ├── http4s-no       (JDK 17 without optimizations, CE 3.5.4, fs2 3.10.0)
  ├── http4s-co       (coordinated ommision, JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0)
- ├── tapir-1.6.0     (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.0)
+ ├── tapir-1.6.0     (JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.0)
  ├── tapir-1.6.0-no  (JDK 17 without optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.0)
- ├── tapir-1.6.3     (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.3)
- ├── tapir-1.10.0    (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.10.0)
- ├── tapir-1.10.0-fp (JDK 22 with THP and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.10.0, fast-path)
+ ├── tapir-1.6.3     (JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.6.3)
+ ├── tapir-1.10.0    (JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.10.0)
+ ├── tapir-1.10.0-fp (JDK 22 with Generational ZGC, THP, and other optimizations, CE 3.5.4, fs2 3.10.0, tapir 1.10.0, fast-path)
 ```
 
 Each folder contains:
